@@ -1,0 +1,31 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        """
+        - use a data structure (a list?, a map?) to store information about all the nodes
+        - you definitely have to go through it once to know what nodes are there,
+            - before we start pointing at random ones
+        """
+
+        nodeMap = {}
+        curr = head
+        while curr:
+            nodeMap[curr] = Node(curr.val)
+            curr = curr.next
+        
+        curr = head
+        while curr:
+            nodeMap[curr].next = nodeMap[curr.next] if curr.next else None
+            nodeMap[curr].random = nodeMap[curr.random] if curr.random else None
+            curr = curr.next
+        
+        return nodeMap[head] if head else None
+        
